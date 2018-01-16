@@ -243,12 +243,11 @@ function prepHTML(options) {
     link.media = "screen,print"
     document.getElementsByTagName("head")[0].appendChild(link)
   }
-	appendCSS(relative_path+ "component/styles/input.css");
-	appendCSS(relative_path + "component/styles/reply.css")
-	appendCSS(relative_path + "component/styles/says.css")
-	appendCSS(relative_path + "component/styles/setup.css")
-	appendCSS(relative_path + "component/styles/typing.css")
-
+	appendCSS(relative_path+ "stylesheets/input.css");
+	appendCSS(relative_path + "stylesheets/reply.css");
+	appendCSS(relative_path + "stylesheets/says.css");
+	appendCSS(relative_path + "stylesheets/setup.css");
+	appendCSS(relative_path + "stylesheets/typing.css");
 }
 
 // exports for es6
