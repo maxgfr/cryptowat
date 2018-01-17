@@ -1,0 +1,15 @@
+{
+    "services":
+    {
+        "conversation":
+        [{
+            "credentials":
+            {
+              "url": "",
+              "username": "",
+              "password": ""
+            },
+            "label": "conversation"
+        }]
+    }
+}
