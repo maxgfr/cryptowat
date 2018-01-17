@@ -24,7 +24,6 @@ try {
 const appEnvOpts = vcapLocal ? { vcap: vcapLocal} : {}
 
 const appEnv = cfenv.getAppEnv(appEnvOpts);
-
 if (appEnv.services['conversation']) {
   // Load the Watson Conversation library.
   var ConversationV1 = require('watson-developer-cloud/conversation/v1');
