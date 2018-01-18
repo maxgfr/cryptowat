@@ -10,9 +10,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-
 var cfenv = require("cfenv");
-
 
 /***** IBM part *****/
 var vcapLocal; // load local VCAP configuration  and service credentials
@@ -36,7 +34,6 @@ if (appEnv.services['conversation']) {
   });
   //console.log(conversation);
 }
-
 /***** IBM part *****/
 
 // view engine setup

@@ -31,14 +31,31 @@
 		</p>
 	</section>
 
+	<script src="javascripts/jquery-3.2.1.js"></script>
+
 	<!-- initialize bubbles -->
 	<script>
 		var givemeBubbles = new Bubbles(document.getElementById("chat"), "givemeBubbles", {
-			inputCallbackFn: function(o){ //Call Watson
+			inputCallbackFn: function(o){
 				console.log(o);
+                $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: {input: o.input},
+                    dataType: 'json',
+                    success: function (res) {
+                        //console.log(res);
+						givemeBubbles.talk({ "ice": { "says": [ res ] } });
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                    }
+                });
+
 			}
 		});
-		givemeBubbles.talk({ "ice": { "says": [ "Hi, I'm CryptoWatson" ] } });
+		givemeBubbles.talk({ "ice": { "says": [ "Hiiiiiii! 😊" ] } });
+		givemeBubbles.talk({ "ice": { "says": [ "I'm CryptoWatson, your cryptocurrency assistant! 💪" ] } });
 	</script>
 </body>
 </html>
