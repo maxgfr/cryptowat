@@ -22,7 +22,7 @@ router.post('/',async function(req, res, next) {
     conversation.message({
         input: { text: req.body.input},
         context: context,
-        workspace_id: '3ca0aa0a-f518-4e60-b233-38056953fa71'
+        workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
     }, function(err, response) {
         if (err) {
            console.error(err);
@@ -72,7 +72,7 @@ router.post('/wabhook', function(req, res, next) {
     conversation.message({
         input: { text: req.body.input},
         context: context,
-        workspace_id: '3ca0aa0a-f518-4e60-b233-38056953fa71'
+        workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
     }, function(err, response) {
         if (err) {
            console.error(err);
