@@ -7,7 +7,7 @@ let context;
 let value;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/',function(req, res, next) {
     if(!conversation) {
         console.log("Conversation non initialisée");
         res.render('error');
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
     }
 });
 
-router.post('/',async function(req, res, next) {
+router.post('/',function(req, res, next) {
     //console.log(req.body.input);
     conversation.message({
         input: { text: req.body.input},
@@ -34,8 +34,8 @@ router.post('/',async function(req, res, next) {
     async function callPrice(response) {
         var rep = response.output.text;
         context = response.context;
-        if (context.currency != null && context.period != null) {
-            var data =  await coinmarketcap.tickerByAsset(context.currency);
+        if (context.cryptocurrency != null && context.period != null) {
+            var data =  await coinmarketcap.tickerByAsset(context.cryptocurrency);
             var name = data.name;
             var marketcap = data.market_cap_usd;
             var price_usd = data.price_usd;
@@ -84,8 +84,8 @@ router.post('/wabhook', function(req, res, next) {
     async function callPrice(response) {
         var rep = response.output.text;
         context = response.context;
-        if (context.currency != null && context.period != null) {
-            var data =  await coinmarketcap.tickerByAsset(context.currency);
+        if (context.cryptocurrency != null && context.period != null) {
+            var data =  await coinmarketcap.tickerByAsset(context.cryptocurrency);
             var name = data.name;
             var marketcap = data.market_cap_usd;
             var price_usd = data.price_usd;
