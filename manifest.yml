@@ -2,4 +2,5 @@
 applications:
  - name: cryptop
    random-route: true
-   memory: 1024M
+   memory: 512M
+   instances: 4
