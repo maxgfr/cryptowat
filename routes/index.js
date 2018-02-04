@@ -4,8 +4,6 @@ var http = require('http');
 var CoinMarketCap = require("node-coinmarketcap");
 var cm = new CoinMarketCap();
 
-const token = process.env.app_token_page
-
 let context;
 let value;
 
@@ -75,24 +73,28 @@ router.get('/webhook/', function (req, res) {
 		res.send(req.query['hub.challenge'])
 	}
 	res.send('Error, wrong token')
-})
+});
 
 router.post('/webhook/', function (req, res) {
+    console.log('facebooksisi', req);
+    var fb_token = req.app.get('fb_token');
+    console.log(fb_token);
 	let messaging_events = req.body.entry[0].messaging
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		if (event.message && event.message.text) {
 			let text = event.message.text
-			sendTextMessage(sender, text.substring(0, 200))
+            console.log('facebooksisi',text);
+			sendTextMessage(sender, text,fb_token)
 		}
 	}
 	res.sendStatus(200)
-})
+});
 
-function sendTextMessage(sender, text) {
+function sendTextMessage(sender, text, token) {
     conversation.message({
-        input: { text: text,
+        input: { text: req.body.input},
         context: context,
         workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
     }, function(err, response) {
@@ -132,12 +134,13 @@ function sendTextMessage(sender, text) {
                   }
                   console.log(result);
                   context = null;
-                  messageData = { text:result }
+                  messageData = { text:result };
+                });
             } else {
-                messageData = { text:rep }
+                messageData = { text:rep };
             }
             request({
-                url: 'https://graph.facebook.com/v2.11/me/messages',
+                url: 'https://graph.facebook.com/v2.6/me/messages',
                 qs: {access_token:token},
                 method: 'POST',
                 json: {
@@ -150,10 +153,9 @@ function sendTextMessage(sender, text) {
                 } else if (response.body.error) {
                     console.log('Error: ', response.body.error)
                 }
-            })
+            });
         }
     });
 }
-
 
 module.exports = router;

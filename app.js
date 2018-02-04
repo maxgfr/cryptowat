@@ -22,10 +22,14 @@ try {
 const appEnvOpts = vcapLocal ? { vcap: vcapLocal} : {}
 
 const appEnv = cfenv.getAppEnv(appEnvOpts);
+
+//Token for facebook
+const fb_token = appEnv.services['facebook'][0].token_page;
+app.set('fb_token', fb_token);
+
 if (appEnv.services['conversation']) {
   // Load the Watson Conversation library.
   var ConversationV1 = require('watson-developer-cloud/conversation/v1');
-
   // Initialize database with credentials
   conversation = new ConversationV1({
     username: appEnv.services['conversation'][0].credentials.username,

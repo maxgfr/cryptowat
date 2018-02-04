@@ -10,6 +10,10 @@
               "password": ""
             },
             "label": "conversation"
+        }],
+        "facebook":
+        [{
+            "token_page": "EAACDSnyANdIBAB99SZCH5rZAgfM8AH6aaZC2C7Ty3obwFD2IQvZAwe6rBGByIyZChbpcSCZBvoxkF3vv8pwsELk5xzkb6F86WaGi1cfy2vspGiB8T7aY7SmzUkRAnIpCT8FFUMmzZBX4EtaT9yl9goe8jgExvkcr0lzDgWa1uZCFiwZDZD"
         }]
     }
 }
