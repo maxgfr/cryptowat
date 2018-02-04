@@ -28,6 +28,7 @@ const fb_token = appEnv.services['facebook'][0].token_page;
 app.set('fb_token', fb_token);
 
 if (appEnv.services['conversation']) {
+    console.log(fb_token)
   // Load the Watson Conversation library.
   var ConversationV1 = require('watson-developer-cloud/conversation/v1');
   // Initialize database with credentials
