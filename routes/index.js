@@ -7,6 +7,10 @@ var cm = new CoinMarketCap();
 let context;
 let value;
 
+router.get('/privacy',function(req, res, next) {
+    res.render('policy');
+});
+
 router.get('/',function(req, res, next) {
     if(!conversation) {
         console.log("Conversation non initialisée");
