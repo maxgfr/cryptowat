@@ -10,10 +10,6 @@
               "password": ""
             },
             "label": "conversation"
-        }],
-        "facebook":
-        [{
-            "token_page": ""
         }]
     }
 }

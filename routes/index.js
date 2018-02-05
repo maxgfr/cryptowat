@@ -19,8 +19,6 @@ router.get('/',function(req, res, next) {
 
 router.post('/',function(req, res, next) {
     //console.log(req.body.input);
-    var fb_token = req.app.get('fb_token');
-    console.log('TOKEN',fb_token);
     conversation.message({
         input: { text: req.body.input},
         context: context,
@@ -78,8 +76,7 @@ router.get('/webhook/', function (req, res) {
 });
 
 router.post('/webhook/', function (req, res) {
-    var fb_token = req.app.get('fb_token');
-    console.log('TOKEN',fb_token);
+    var fb_token = "EAACDSnyANdIBAB99SZCH5rZAgfM8AH6aaZC2C7Ty3obwFD2IQvZAwe6rBGByIyZChbpcSCZBvoxkF3vv8pwsELk5xzkb6F86WaGi1cfy2vspGiB8T7aY7SmzUkRAnIpCT8FFUMmzZBX4EtaT9yl9goe8jgExvkcr0lzDgWa1uZCFiwZDZD";
 	let messaging_events = req.body.entry[0].messaging;
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i];
