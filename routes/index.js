@@ -19,6 +19,8 @@ router.get('/',function(req, res, next) {
 
 router.post('/',function(req, res, next) {
     //console.log(req.body.input);
+    var fb_token = req.app.get('fb_token');
+    console.log('TOKEN',fb_token);
     conversation.message({
         input: { text: req.body.input},
         context: context,
