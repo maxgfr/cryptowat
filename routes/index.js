@@ -76,16 +76,15 @@ router.get('/webhook/', function (req, res) {
 });
 
 router.post('/webhook/', function (req, res) {
-    console.log('facebooksisi', req);
     var fb_token = req.app.get('fb_token');
-    console.log(fb_token);
+    console.log('TOKEN',fb_token);
 	let messaging_events = req.body.entry[0].messaging;
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i];
 		let sender = event.sender.id;
 		if (event.message && event.message.text) {
 			let text = event.message.text;
-            console.log('facebooksisi',text);
+            console.log('USER said :',text);
 			sendTextMessage(sender, text, fb_token);
 		}
 	}
