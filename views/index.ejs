@@ -28,6 +28,21 @@
 
 	<!-- initialize bubbles -->
 	<script>
+		$(document).ready(function() {
+			$.ajax({
+				type: "POST",
+				url: "/",
+				data: {input: ""},
+				dataType: 'json',
+				success: function (res) {
+					givemeBubbles.talk({ "ice": { "says": [ res] } });
+				},
+				error: function (data) {
+					console.log('Error:', data);
+				}
+			});
+		});
+
 		var givemeBubbles = new Bubbles(document.getElementById("chat"), "givemeBubbles", {
 			inputCallbackFn: function(o){
 				console.log(o);
@@ -44,11 +59,8 @@
                         console.log('Error:', data);
                     }
                 });
-
 			}
 		});
-		givemeBubbles.talk({ "ice": { "says": [ "Hiiiiiii! 😊" ] } });
-		givemeBubbles.talk({ "ice": { "says": [ "I'm Cryptop, your cryptocurrency assistant! 💪" ] } });
 	</script>
 </body>
 </html>

@@ -13,6 +13,7 @@ router.get('/',function(req, res, next) {
         res.render('error');
     } else {
         console.log("Conversation initialisée");
+        context = null;
         res.render('index', { conversation: conversation});
     }
 });
