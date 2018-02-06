@@ -8,12 +8,12 @@ let context;
 let value;
 
 router.get('/',function(req, res, next) {
+    context = null;
     if(!conversation) {
         console.log("Conversation non initialisée");
         res.render('error');
     } else {
         console.log("Conversation initialisée");
-        context = null;
         res.render('index', { conversation: conversation});
     }
 });
@@ -164,7 +164,6 @@ function sendTextMessage(sender, text) {
 
 module.exports = function(bot) {
     bot.on('message', function(userId, message){
-        let toSend;
         conversation.message({
             input: { text: message},
             context: context,
@@ -202,14 +201,13 @@ module.exports = function(bot) {
                           result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
                       }
                       context = null;
-                      toSend = result;
+                      bot.sendTextMessage(userId, result[0]);
                     });
                 } else {
-                    toSend = rep;
+                    bot.sendTextMessage(userId, rep[0]);
                 }
             }
         });
-        bot.sendTextMessage(userId, toSend);
     });
     return router;
 };
