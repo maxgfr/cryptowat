@@ -5,7 +5,6 @@ var CoinMarketCap = require("node-coinmarketcap");
 var cm = new CoinMarketCap();
 
 let context;
-let value;
 
 router.get('/',function(req, res, next) {
     context = null;
@@ -28,43 +27,47 @@ router.post('/',function(req, res, next) {
         if (err) {
            console.error(err);
        } else {
-            console.log(response);
+            //console.log(response);
             var rep = response.output.text;
+            var node_visited = response.output.nodes_visited;
             context = response.context;
-            if (context.cryptocurrency != null && context.period != null) {
+            console.log(context);
+            if (context.cryptocurrency != null && context.period  != null) {
                 cm.get(context.cryptocurrency, data => {
                   //console.log(data);
-                  console.log(data.price_usd); // Prints the price in USD of BTC at the moment.
+                  //console.log(data.price_usd); // Prints the price in USD of BTC at the moment.
                   var name = data.name;
                   var marketcap = data.market_cap_usd;
                   var price_usd = data.price_usd;
                   var period = 'none';
-                  console.log(data);
+                  var value;
+                  var result;
+                  //console.log(data);
                   if(context.period == "weekly") {
                       value = data.percent_change_7d;
                       period = '7 days';
                   }
-                  if (context.period == "daily") {
+                  if (context.period  == "daily") {
                       value = data.percent_change_24h;
                       period = '24 hours';
                   }
-                  if (context.period == "hourly"){
+                  if (context.period  == "hourly"){
                       value = data.percent_change_1h;
                       period = 'hour';
                   }
-                  var result;
                   if(Math.sign(value) == 1) { //positive
                       result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$.';
                   } else {
                       result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
                   }
-                  console.log(result);
+                  //console.log(result);
                   context = null;
                   res.send([result]);
                 });
             } else {
                 res.send([rep]);
             }
+
         }
     });
 });
@@ -175,26 +178,28 @@ module.exports = function(bot) {
                 console.log(response);
                 var messageData;
                 var rep = response.output.text;
+                var node_visited = response.output.nodes_visited;
                 context = response.context;
-                if (context.cryptocurrency != null && context.period != null) {
+                if (context.cryptocurrency != null && context.period  != null) {
                     cm.get(context.cryptocurrency, data => {
                       var name = data.name;
                       var marketcap = data.market_cap_usd;
                       var price_usd = data.price_usd;
                       var period = 'none';
+                      var value;
+                      var result;
                       if(context.period == "weekly") {
                           value = data.percent_change_7d;
                           period = '7 days';
                       }
-                      if (context.period == "daily") {
+                      if (context.period  == "daily") {
                           value = data.percent_change_24h;
                           period = '24 hours';
                       }
-                      if (context.period == "hourly"){
+                      if (context.period  == "hourly"){
                           value = data.percent_change_1h;
                           period = 'hour';
                       }
-                      var result;
                       if(Math.sign(value) == 1) { //positive
                           result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$.';
                       } else {
