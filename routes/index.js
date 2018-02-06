@@ -201,7 +201,7 @@ module.exports = function(bot) {
                           result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
                       }
                       context = null;
-                      bot.sendTextMessage(userId, result[0]);
+                      bot.sendTextMessage(userId, result);
                     });
                 } else {
                     bot.sendTextMessage(userId, rep[0]);
