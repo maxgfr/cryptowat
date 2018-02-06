@@ -4,8 +4,6 @@ var http = require('http');
 var CoinMarketCap = require("node-coinmarketcap");
 var cm = new CoinMarketCap();
 
-global.context = null;
-
 router.get('/',function(req, res, next) {
     context = null;
     if(!conversation) {
@@ -65,8 +63,16 @@ router.post('/',function(req, res, next) {
                   context = null;
                   res.send([result]);
                 });
-            } else {
-                res.send([rep]);
+            }
+             else {
+                 if (context.cryptocurrency != null) {
+                     cm.get(context.cryptocurrency, data => {
+                       var result = 'The price of '+data.name+' is: '+data.price_usd+'$. You can send me a message to know the variation of the price (for the week or the day or the hour) 😊';
+                       res.send([result]);
+                     });
+                 } else {
+                    res.send([rep]);
+                 }
             }
 
         }
@@ -210,8 +216,15 @@ module.exports = function(bot) {
                       bot.sendTextMessage(userId, result);
                     });
                 } else {
-                    bot.sendTextMessage(userId, rep[0]);
-                }
+                    if (context.cryptocurrency != null) {
+                        cm.get(context.cryptocurrency, data => {
+                            var result = 'The price of '+data.name+' is: '+data.price_usd+'$. You can send me a message to know the variation of the price (for the week or the day or the hour) 😊';
+                            bot.sendTextMessage(userId, result);
+                        });
+                    } else {
+                       bot.sendTextMessage(userId, rep[0]);
+                    }
+               }
             }
         });
     });
