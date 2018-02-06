@@ -7,10 +7,6 @@ var cm = new CoinMarketCap();
 let context;
 let value;
 
-router.get('/privacy',function(req, res, next) {
-    res.render('policy');
-});
-
 router.get('/',function(req, res, next) {
     if(!conversation) {
         console.log("Conversation non initialisée");
@@ -73,6 +69,11 @@ router.post('/',function(req, res, next) {
     });
 });
 
+router.get('/privacy',function(req, res, next) {
+    res.render('policy');
+});
+
+/*
 router.get('/webhook/', function (req, res) {
 	if (req.query['hub.verify_token'] === 'cryptop') {
 		res.send(req.query['hub.challenge'])
@@ -80,22 +81,21 @@ router.get('/webhook/', function (req, res) {
 	res.send('Error, wrong token')
 });
 
-router.post('/webhook/', function (req, res) {
-    var fb_token = "EAACDSnyANdIBAB99SZCH5rZAgfM8AH6aaZC2C7Ty3obwFD2IQvZAwe6rBGByIyZChbpcSCZBvoxkF3vv8pwsELk5xzkb6F86WaGi1cfy2vspGiB8T7aY7SmzUkRAnIpCT8FFUMmzZBX4EtaT9yl9goe8jgExvkcr0lzDgWa1uZCFiwZDZD";
-	let messaging_events = req.body.entry[0].messaging;
+router.post('/webhook/', function (req, res, next) {
+    let messaging_events = req.body.entry[0].messaging;
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i];
 		let sender = event.sender.id;
 		if (event.message && event.message.text) {
 			let text = event.message.text;
             console.log('USER said :',text);
-			sendTextMessage(sender, text, fb_token);
+            sendTextMessage(sender, text);
 		}
 	}
 	res.sendStatus(200);
 });
 
-function sendTextMessage(sender, text, token) {
+function sendTextMessage(sender, text) {
     conversation.message({
         input: { text: req.body.input},
         context: context,
@@ -144,7 +144,7 @@ function sendTextMessage(sender, text, token) {
             }
             request({
                 url: 'https://graph.facebook.com/v2.11/me/messages',
-                qs: {access_token:token},
+                qs: {access_token:"EAACDSnyANdIBAC5xSdhgwZAyZBWchOdtQJWIznDHYWQTkDAPcEQLq9NesmMCJ8Bl9ZAbJ2mN3FNSOXdgOSBoy24jSZAuR3tZAtwvUT3OW7FYysuVlE6yHLydLG1AIJm59MaedLmQgKSuXdGaQLb9zh1FQb5s1Evwj1BUnUDiqWwZDZD"},
                 method: 'POST',
                 json: {
                     recipient: {id:sender},
@@ -160,5 +160,56 @@ function sendTextMessage(sender, text, token) {
         }
     });
 }
+*/
 
-module.exports = router;
+module.exports = function(bot) {
+    bot.on('message', function(userId, message){
+        let toSend;
+        conversation.message({
+            input: { text: message},
+            context: context,
+            workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
+        }, function(err, response) {
+            if (err) {
+               console.error(err);
+           } else {
+                console.log(response);
+                var messageData;
+                var rep = response.output.text;
+                context = response.context;
+                if (context.cryptocurrency != null && context.period != null) {
+                    cm.get(context.cryptocurrency, data => {
+                      var name = data.name;
+                      var marketcap = data.market_cap_usd;
+                      var price_usd = data.price_usd;
+                      var period = 'none';
+                      if(context.period == "weekly") {
+                          value = data.percent_change_7d;
+                          period = '7 days';
+                      }
+                      if (context.period == "daily") {
+                          value = data.percent_change_24h;
+                          period = '24 hours';
+                      }
+                      if (context.period == "hourly"){
+                          value = data.percent_change_1h;
+                          period = 'hour';
+                      }
+                      var result;
+                      if(Math.sign(value) == 1) { //positive
+                          result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$.';
+                      } else {
+                          result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
+                      }
+                      context = null;
+                      toSend = result;
+                    });
+                } else {
+                    toSend = rep;
+                }
+            }
+        });
+        bot.sendTextMessage(userId, toSend);
+    });
+    return router;
+};

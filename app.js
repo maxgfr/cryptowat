@@ -4,13 +4,20 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-
+var cfenv = require("cfenv");
+var FBBotFramework = require('fb-bot-framework');
 var app = express();
 
-var cfenv = require("cfenv");
+/*** CHATBOT PART ***/
+var bot = new FBBotFramework({
+	page_token: "EAACDSnyANdIBAC5xSdhgwZAyZBWchOdtQJWIznDHYWQTkDAPcEQLq9NesmMCJ8Bl9ZAbJ2mN3FNSOXdgOSBoy24jSZAuR3tZAtwvUT3OW7FYysuVlE6yHLydLG1AIJm59MaedLmQgKSuXdGaQLb9zh1FQb5s1Evwj1BUnUDiqWwZDZD",
+    verify_token: "cryptop"
+});
+app.use('/webhook', bot.middleware());
+var index = require('./routes/index')(bot);
+var users = require('./routes/users');
+/*** CHATBOT PART ***/
+
 
 /***** IBM part *****/
 var vcapLocal; // load local VCAP configuration  and service credentials
