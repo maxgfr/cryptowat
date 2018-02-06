@@ -4,7 +4,7 @@ var http = require('http');
 var CoinMarketCap = require("node-coinmarketcap");
 var cm = new CoinMarketCap();
 
-let context;
+global.context = null;
 
 router.get('/',function(req, res, next) {
     context = null;
@@ -19,6 +19,7 @@ router.get('/',function(req, res, next) {
 
 router.post('/',function(req, res, next) {
     //console.log(req.body.input);
+    //console.log(context);
     conversation.message({
         input: { text: req.body.input},
         context: context,
@@ -31,7 +32,7 @@ router.post('/',function(req, res, next) {
             var rep = response.output.text;
             var node_visited = response.output.nodes_visited;
             context = response.context;
-            console.log(context);
+            //console.log(context);
             if (context.cryptocurrency != null && context.period  != null) {
                 cm.get(context.cryptocurrency, data => {
                   //console.log(data);
