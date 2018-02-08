@@ -8,7 +8,6 @@ var number = 0;
 var context = null;
 
 router.get('/',function(req, res, next) {
-    context = null;
     if(!conversation) {
         console.log("Conversation non initialisée");
         res.render('error');
@@ -62,9 +61,9 @@ router.post('/',function(req, res, next) {
                       period = 'hour';
                   }
                   if(Math.sign(value) == 1) { //positive
-                      result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$.';
+                      result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$. 😄';
                   } else {
-                      result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
+                      result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$. 😄';
                   }
                   //console.log(result);
                   res.send([result]);
@@ -73,7 +72,7 @@ router.post('/',function(req, res, next) {
              else {
                  if (context.cryptocurrency != null) {
                      cm.get(context.cryptocurrency, data => {
-                       var result = 'The price of '+data.name+' is: '+data.price_usd+'$. You can send me a message to know the variation of the price (for the week or the day or the hour) 😊';
+                       var result = 'The price of '+data.name+' is: '+data.price_usd+'$. 😊';
                        res.send([result]);
                      });
                  } else {
@@ -220,16 +219,16 @@ module.exports = function(bot) {
                           period = 'hour';
                       }
                       if(Math.sign(value) == 1) { //positive
-                          result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$.';
+                          result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$. 😄';
                       } else {
-                          result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
+                          result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$. 😄';
                       }
                       bot.sendTextMessage(userId, result);
                     });
                 } else {
                     if (context.cryptocurrency != null) {
                         cm.get(context.cryptocurrency, data => {
-                            var result = 'The price of '+data.name+' is: '+data.price_usd+'$. You can send me a message to know the variation of the price (for the week or the day or the hour) 😊';
+                            var result = 'The price of '+data.name+' is: '+data.price_usd+'$. 😊';
                             bot.sendTextMessage(userId, result);
                         });
                     } else {
