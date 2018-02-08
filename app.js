@@ -8,8 +8,6 @@ var cfenv = require("cfenv");
 var FBBotFramework = require('fb-bot-framework');
 var app = express();
 
-global.context = null;
-
 /*** CHATBOT PART ***/
 var bot = new FBBotFramework({
 	page_token: "EAACDSnyANdIBAC5xSdhgwZAyZBWchOdtQJWIznDHYWQTkDAPcEQLq9NesmMCJ8Bl9ZAbJ2mN3FNSOXdgOSBoy24jSZAuR3tZAtwvUT3OW7FYysuVlE6yHLydLG1AIJm59MaedLmQgKSuXdGaQLb9zh1FQb5s1Evwj1BUnUDiqWwZDZD",

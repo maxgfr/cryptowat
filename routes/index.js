@@ -3,6 +3,9 @@ var router = express.Router();
 var http = require('http');
 var CoinMarketCap = require("node-coinmarketcap");
 var cm = new CoinMarketCap();
+var context_array = [];
+var number = 0;
+var context = null;
 
 router.get('/',function(req, res, next) {
     context = null;
@@ -20,7 +23,7 @@ router.post('/',function(req, res, next) {
     //console.log(context);
     conversation.message({
         input: { text: req.body.input},
-        context: context,
+        context: context_array[context_array.length-1] ,
         workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
     }, function(err, response) {
         if (err) {
@@ -29,7 +32,11 @@ router.post('/',function(req, res, next) {
             //console.log(response);
             var rep = response.output.text;
             var node_visited = response.output.nodes_visited;
+            /*SAVE CONTEXT*/
             context = response.context;
+            context_array[number] = response.context;
+            number++;
+            /*SAVE CONTEXT*/
             //console.log(context);
             if (context.cryptocurrency != null && context.period  != null) {
                 cm.get(context.cryptocurrency, data => {
@@ -60,7 +67,6 @@ router.post('/',function(req, res, next) {
                       result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
                   }
                   //console.log(result);
-                  context = null;
                   res.send([result]);
                 });
             }
@@ -174,9 +180,10 @@ function sendTextMessage(sender, text) {
 
 module.exports = function(bot) {
     bot.on('message', function(userId, message){
+        console.log('CHATBOT CONTEXT', context);
         conversation.message({
             input: { text: message},
-            context: context,
+            context: context_array[context_array.length-1],
             workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
         }, function(err, response) {
             if (err) {
@@ -186,7 +193,12 @@ module.exports = function(bot) {
                 var messageData;
                 var rep = response.output.text;
                 var node_visited = response.output.nodes_visited;
+                /*SAVE CONTEXT*/
                 context = response.context;
+                context_array[number] = response.context;
+                number++;
+                /*SAVE CONTEXT*/
+                console.log('NUMBER' ,number);
                 if (context.cryptocurrency != null && context.period  != null) {
                     cm.get(context.cryptocurrency, data => {
                       var name = data.name;
@@ -212,7 +224,6 @@ module.exports = function(bot) {
                       } else {
                           result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$.';
                       }
-                      context = null;
                       bot.sendTextMessage(userId, result);
                     });
                 } else {
