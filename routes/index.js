@@ -8,6 +8,9 @@ var number = 0;
 var context = null;
 
 router.get('/',function(req, res, next) {
+    context_array = [];
+    number = 0;
+    context = null;
     if(!conversation) {
         console.log("Conversation non initialisée");
         res.render('error');
