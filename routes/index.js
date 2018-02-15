@@ -181,6 +181,14 @@ function sendTextMessage(sender, text) {
 */
 
 module.exports = function(bot) {
+    // Config the Get Started Button and register a callback
+    bot.setGetStartedButton("GET_STARTED");
+    bot.on('postback', function(userId, payload){
+        if (payload == "GET_STARTED") {
+            bot.sendTextMessage(userId, "Hiiiiiii! I'm Cryptop, your cryptocurrency assistant 😊 Tell me the name of a cryptocurrency (bitcoin, eth, ripple...) 💪");
+        }
+    });
+    // Config the Message Button and register a callback
     bot.on('message', function(userId, message){
         console.log('CHATBOT CONTEXT', context);
         conversation.message({
