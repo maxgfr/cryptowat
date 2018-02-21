@@ -251,33 +251,33 @@ module.exports = function(bot) {
     });
     // Config the Message Button and register a callback
     bot.on('message', function(userId, message){
-        // Send quick replies
-        var replies = [
-            {
-                "content_type": "text",
-                "title": "Hour",
-                "payload": "hour"
-            },
-            {
-                "content_type": "text",
-                "title": "Day",
-                "payload": "day"
-            },
-            {
-                "content_type": "text",
-                "title": "Week",
-                "payload": "Week"
-            }
-        ];
         console.log('CHATBOT CONTEXT', context);
         conversation.message({
-            input: { text: payload},
+            input: { text: message},
             context: context_array[context_array.length-1],
             workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
         }, function(err, response) {
             if (err) {
                console.error(err);
            } else {
+               // Send quick replies
+               var replies = [
+                   {
+                       "content_type": "text",
+                       "title": "Hour",
+                       "payload": "hour"
+                   },
+                   {
+                       "content_type": "text",
+                       "title": "Day",
+                       "payload": "day"
+                   },
+                   {
+                       "content_type": "text",
+                       "title": "Week",
+                       "payload": "Week"
+                   }
+               ];
                 console.log(response);
                 var messageData;
                 var rep = response.output.text;
@@ -319,7 +319,7 @@ module.exports = function(bot) {
                     if (context.cryptocurrency != null) {
                         cm.get(context.cryptocurrency, data => {
                             var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
-                            bot.sendTextMessage(userId, result);
+                            bot.sendQuickReplies(userId, result, replies);
                         });
                     } else {
                         bot.sendQuickReplies(userId, rep[0], replies);
