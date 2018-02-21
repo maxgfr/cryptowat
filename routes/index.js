@@ -188,11 +188,11 @@ module.exports = function(bot) {
             bot.sendTextMessage(userId, "Hiiiiiii! I'm Cryptop, your cryptocurrency assistant 😊 Tell me the name of a cryptocurrency (bitcoin, eth, ripple...) 💪");
         }
     });
-    // Config the Message Button and register a callback
-    bot.on('message', function(userId, message){
+    // Setup listener for quick reply messages
+    bot.on('quickreply', function(userId, payload){
         console.log('CHATBOT CONTEXT', context);
         conversation.message({
-            input: { text: message},
+            input: { text: payload},
             context: context_array[context_array.length-1],
             workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
         }, function(err, response) {
@@ -244,6 +244,86 @@ module.exports = function(bot) {
                         });
                     } else {
                        bot.sendTextMessage(userId, rep[0]);
+                    }
+               }
+            }
+        });
+    });
+    // Config the Message Button and register a callback
+    bot.on('message', function(userId, message){
+        // Send quick replies
+        var replies = [
+            {
+                "content_type": "text",
+                "title": "Hour",
+                "payload": "hour"
+            },
+            {
+                "content_type": "text",
+                "title": "Day",
+                "payload": "day"
+            },
+            {
+                "content_type": "text",
+                "title": "Week",
+                "payload": "Week"
+            }
+        ];
+        console.log('CHATBOT CONTEXT', context);
+        conversation.message({
+            input: { text: payload},
+            context: context_array[context_array.length-1],
+            workspace_id: '6282828d-f95c-4889-8781-614fcfbaac44'
+        }, function(err, response) {
+            if (err) {
+               console.error(err);
+           } else {
+                console.log(response);
+                var messageData;
+                var rep = response.output.text;
+                var node_visited = response.output.nodes_visited;
+                /*SAVE CONTEXT*/
+                context = response.context;
+                context_array[number] = response.context;
+                number++;
+                /*SAVE CONTEXT*/
+                console.log('NUMBER' ,number);
+                if (context.cryptocurrency != null && context.period  != null) {
+                    cm.get(context.cryptocurrency, data => {
+                      var name = data.name;
+                      var marketcap = data.market_cap_usd;
+                      var price_usd = data.price_usd;
+                      var period = 'none';
+                      var value;
+                      var result;
+                      if(context.period == "weekly") {
+                          value = data.percent_change_7d;
+                          period = '7 days';
+                      }
+                      if (context.period  == "daily") {
+                          value = data.percent_change_24h;
+                          period = '24 hours';
+                      }
+                      if (context.period  == "hourly"){
+                          value = data.percent_change_1h;
+                          period = 'hour';
+                      }
+                      if(Math.sign(value) == 1) { //positive
+                          result = 'The last '+period+', the price of '+name+' increased by '+value+'%. Now, its price is: '+price_usd+'$. 📈';
+                      } else {
+                          result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$. 📉';
+                      }
+                      bot.sendQuickReplies(userId, result, replies);
+                    });
+                } else {
+                    if (context.cryptocurrency != null) {
+                        cm.get(context.cryptocurrency, data => {
+                            var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
+                            bot.sendTextMessage(userId, result);
+                        });
+                    } else {
+                        bot.sendQuickReplies(userId, rep[0], replies);
+
                     }
                }
             }
