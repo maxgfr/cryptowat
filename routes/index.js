@@ -37,6 +37,7 @@ router.post('/',function(req, res, next) {
             /*SAVE CONTEXT*/
             context = response.context;
             context_array[number] = response.context;
+            console.log(context_array);
             number++;
             /*SAVE CONTEXT*/
             //console.log(context);
