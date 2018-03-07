@@ -1,0 +1,8 @@
+kubectl run cryptop --image=maxibm/cryptop
+kubectl get deployments
+kubectl get pods
+kubectl get events
+kubectl config view
+kubectl expose deployment cryptop --type=LoadBalancer --port=3000
+kubectl get services
+minikube service cryptop
