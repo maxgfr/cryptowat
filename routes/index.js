@@ -342,7 +342,7 @@ module.exports = function(bot) {
                         var replies3 = [
                             {
                                 "content_type": "text",
-                                "title": "Hour"
+                                "title": "Hour",
                                 "payload": "Hour"
                             },
                             {
