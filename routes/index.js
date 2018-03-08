@@ -339,6 +339,23 @@ module.exports = function(bot) {
                             bot.sendQuickReplies(userId, result, replies);
                         });
                     } else {
+                        var replies = [
+                            {
+                                "content_type": "text",
+                                "title": "Hour"
+                                "payload": "Hour"
+                            },
+                            {
+                                "content_type": "text",
+                                "title": "Day",
+                                "payload": "Day"
+                            },
+                            {
+                                "content_type": "text",
+                                "title": "Week",
+                                "payload": "Week"
+                            }
+                        ];
                         bot.sendQuickReplies(userId, rep[0], replies);
 
                     }
