@@ -296,7 +296,7 @@ module.exports = function(bot) {
                       } else {
                           result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$. 📉';
                       }
-                      var replies = [
+                      var replies1 = [
                           {
                               "content_type": "text",
                               "title": "Hour + "+data.name,
@@ -313,13 +313,13 @@ module.exports = function(bot) {
                               "payload": "Week + "+data.name
                           }
                       ];
-                      bot.sendQuickReplies(userId, result, replies);
+                      bot.sendQuickReplies(userId, result, replies1);
                     });
                 } else {
                     if (context.cryptocurrency != null) {
                         cm.get(context.cryptocurrency, data => {
                             var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
-                            var replies = [
+                            var replies2 = [
                                 {
                                     "content_type": "text",
                                     "title": "Hour + "+data.name,
@@ -336,10 +336,10 @@ module.exports = function(bot) {
                                     "payload": "Week + "+data.name
                                 }
                             ];
-                            bot.sendQuickReplies(userId, result, replies);
+                            bot.sendQuickReplies(userId, result, replies2);
                         });
                     } else {
-                        var replies = [
+                        var replies3 = [
                             {
                                 "content_type": "text",
                                 "title": "Hour"
@@ -356,7 +356,7 @@ module.exports = function(bot) {
                                 "payload": "Week"
                             }
                         ];
-                        bot.sendQuickReplies(userId, rep[0], replies);
+                        bot.sendQuickReplies(userId, rep[0], replies3);
 
                     }
                }
