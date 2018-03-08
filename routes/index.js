@@ -261,24 +261,6 @@ module.exports = function(bot) {
             if (err) {
                console.error(err);
            } else {
-               // Send quick replies
-               var replies = [
-                   {
-                       "content_type": "text",
-                       "title": "Hour",
-                       "payload": "hour"
-                   },
-                   {
-                       "content_type": "text",
-                       "title": "Day",
-                       "payload": "day"
-                   },
-                   {
-                       "content_type": "text",
-                       "title": "Week",
-                       "payload": "Week"
-                   }
-               ];
                 console.log(response);
                 var messageData;
                 var rep = response.output.text;
@@ -314,12 +296,46 @@ module.exports = function(bot) {
                       } else {
                           result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$. 📉';
                       }
+                      var replies = [
+                          {
+                              "content_type": "text",
+                              "title": "Hour + "+data.name,
+                              "payload": "Hour + "+data.name
+                          },
+                          {
+                              "content_type": "text",
+                              "title": "Day + "+data.name,
+                              "payload": "Day + "+data.name
+                          },
+                          {
+                              "content_type": "text",
+                              "title": "Week + "+data.name,
+                              "payload": "Week + "+data.name
+                          }
+                      ];
                       bot.sendQuickReplies(userId, result, replies);
                     });
                 } else {
                     if (context.cryptocurrency != null) {
                         cm.get(context.cryptocurrency, data => {
                             var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
+                            var replies = [
+                                {
+                                    "content_type": "text",
+                                    "title": "Hour + "+data.name,
+                                    "payload": "Hour + "+data.name
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Day + "+data.name,
+                                    "payload": "Day + "+data.name
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Week + "+data.name,
+                                    "payload": "Week + "+data.name
+                                }
+                            ];
                             bot.sendQuickReplies(userId, result, replies);
                         });
                     } else {
