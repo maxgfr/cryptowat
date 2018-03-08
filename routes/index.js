@@ -342,18 +342,18 @@ module.exports = function(bot) {
                         var replies3 = [
                             {
                                 "content_type": "text",
-                                "title": "Hour",
-                                "payload": "Hour"
+                                "title": "Bitcoin",
+                                "payload": "Bitcoin"
                             },
                             {
                                 "content_type": "text",
-                                "title": "Day",
-                                "payload": "Day"
+                                "title": "Ethereum",
+                                "payload": "Ethereum"
                             },
                             {
                                 "content_type": "text",
-                                "title": "Week",
-                                "payload": "Week"
+                                "title": "Ripple",
+                                "payload": "Ripple"
                             }
                         ];
                         bot.sendQuickReplies(userId, rep[0], replies3);
