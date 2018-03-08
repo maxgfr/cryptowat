@@ -186,7 +186,25 @@ module.exports = function(bot) {
     bot.setGetStartedButton("GET_STARTED");
     bot.on('postback', function(userId, payload){
         if (payload == "GET_STARTED") {
-            bot.sendTextMessage(userId, "Hiiiiiii! I'm Cryptop, your cryptocurrency assistant 😊 Tell me the name of a cryptocurrency (bitcoin, eth, ripple...) 💪");
+            var replies = [
+                {
+                    "content_type": "text",
+                    "title": "Bitcoin",
+                    "payload": "Bitcoin"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Ethereum",
+                    "payload": "Ethereum"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Ripple",
+                    "payload": "Ripple"
+                }
+            ];
+            bot.sendQuickReplies(userId, "Hiiiiiii! I'm Cryptop, your cryptocurrency assistant 😊 Tell me the name of a cryptocurrency (bitcoin, eth, ripple...) 💪", replies);
+            //bot.sendTextMessage(userId, "Hiiiiiii! I'm Cryptop, your cryptocurrency assistant 😊 Tell me the name of a cryptocurrency (bitcoin, eth, ripple...) 💪");
         }
     });
     // Setup listener for quick reply messages
@@ -235,16 +253,70 @@ module.exports = function(bot) {
                       } else {
                           result = 'The last '+period+', the price of '+name+' fell to '+value+'%. Now, its price is: '+price_usd+'$. 📉';
                       }
-                      bot.sendTextMessage(userId, result);
+                      //bot.sendTextMessage(userId, result);
+                      var replies1 = [
+                          {
+                              "content_type": "text",
+                              "title": "Hour + "+data.name,
+                              "payload": "Hour + "+data.name
+                          },
+                          {
+                              "content_type": "text",
+                              "title": "Day + "+data.name,
+                              "payload": "Day + "+data.name
+                          },
+                          {
+                              "content_type": "text",
+                              "title": "Week + "+data.name,
+                              "payload": "Week + "+data.name
+                          }
+                      ];
+                      bot.sendQuickReplies(userId, result, replies1);
                     });
                 } else {
                     if (context.cryptocurrency != null) {
                         cm.get(context.cryptocurrency, data => {
                             var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
-                            bot.sendTextMessage(userId, result);
+                            var replies2 = [
+                                {
+                                    "content_type": "text",
+                                    "title": "Hour + "+data.name,
+                                    "payload": "Hour + "+data.name
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Day + "+data.name,
+                                    "payload": "Day + "+data.name
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Week + "+data.name,
+                                    "payload": "Week + "+data.name
+                                }
+                            ];
+                            bot.sendQuickReplies(userId, result, replies2);
+                            //bot.sendTextMessage(userId, result);
                         });
                     } else {
-                       bot.sendTextMessage(userId, rep[0]);
+                       //bot.sendTextMessage(userId, rep[0]);
+                       var replies3 = [
+                           {
+                               "content_type": "text",
+                               "title": "Bitcoin",
+                               "payload": "Bitcoin"
+                           },
+                           {
+                               "content_type": "text",
+                               "title": "Ethereum",
+                               "payload": "Ethereum"
+                           },
+                           {
+                               "content_type": "text",
+                               "title": "Ripple",
+                               "payload": "Ripple"
+                           }
+                       ];
+                       bot.sendQuickReplies(userId, rep[0], replies3);
                     }
                }
             }
