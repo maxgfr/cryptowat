@@ -1,0 +1,33 @@
+if (context.cryptocurrency != null) {
+    cm.get(context.cryptocurrency, data => {
+       var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
+       res.send([result]);
+    });
+} else {
+   res.send([rep]);
+}
+
+
+||
+TO
+||
+
+var intent= 'none';
+if (response.intents[0] != undefined) {
+    intent = response.intents[0].intent;
+}
+if (context.cryptocurrency != null && intent == 'token') {
+    cm.get(context.cryptocurrency, data => {
+        var result = 'The number of '+data.name+' is: '+data.available_supply+'.';
+        res.send([result]);
+    });
+}
+else if (context.cryptocurrency != null) {
+    cm.get(context.cryptocurrency, data => {
+       var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
+       res.send([result]);
+    });
+}
+else {
+   res.send([rep]);
+}

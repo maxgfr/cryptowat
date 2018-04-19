@@ -31,13 +31,13 @@ router.post('/',function(req, res, next) {
         if (err) {
            console.error(err);
        } else {
-            //console.log(response);
+            console.log(response);
             var rep = response.output.text;
             var node_visited = response.output.nodes_visited;
             /*SAVE CONTEXT*/
             context = response.context;
             context_array[number] = response.context;
-            console.log(context_array);
+            //console.log(context_array);
             number++;
             /*SAVE CONTEXT*/
             //console.log(context);
@@ -76,8 +76,8 @@ router.post('/',function(req, res, next) {
              else {
                  if (context.cryptocurrency != null) {
                      cm.get(context.cryptocurrency, data => {
-                       var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
-                       res.send([result]);
+                        var result = 'The price of '+data.name+' is: '+data.price_usd+'$.';
+                        res.send([result]);
                      });
                  } else {
                     res.send([rep]);
