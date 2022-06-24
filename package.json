@@ -27,7 +27,7 @@
     "messenger-bot": "^2.4.0",
     "morgan": "~1.9.0",
     "node-coinmarketcap": "^0.2.0",
-    "node-fetch": "^1.7.3",
+    "node-fetch": "^2.6.7",
     "path": "^0.12.7",
     "pug": "2.0.0-beta11",
     "request": "^2.83.0",
